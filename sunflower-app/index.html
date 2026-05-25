@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sunflower Living Ecosystem</title>
+  <style>
+    :root,[data-theme="light"]{
+      --bg:#fffaf0;--surface:rgba(255,253,248,.88);--surface-2:#f8f1df;--border:#ead6a4;--text:#3b2a16;--muted:#7a664d;--primary:#b67a00;--primary-2:#8d5e00;--success:#5d8a2f;--success-soft:#e8f0db;--accent:#fff2bf;--sun:#f4c542;--gold:#c98b00;--glow:0 0 0 1px rgba(255,255,255,.4),0 0 24px rgba(244,197,66,.28),0 18px 40px rgba(182,122,0,.16);--shadow:0 12px 32px rgba(120,90,25,.14);--r1:.75rem;--r2:1rem;--r3:1.5rem;--body:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;--display:Georgia,serif;
+    }
+    [data-theme="dark"]{
+      --bg:#20160b;--surface:rgba(42,29,15,.86);--surface-2:#332514;--border:#6f5732;--text:#f7ecd0;--muted:#d2be95;--primary:#f1b22d;--primary-2:#ffd066;--success:#97c35d;--success-soft:#334220;--accent:#4a3614;--sun:#ffd84f;--gold:#ffd066;--glow:0 0 0 1px rgba(255,255,255,.06),0 0 24px rgba(255,208,102,.18),0 18px 40px rgba(0,0,0,.35);--shadow:0 12px 32px rgba(0,0,0,.36);
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;min-height:100vh;font-family:var(--body);background:radial-gradient(circle at top,#fff6d9 0%,var(--bg) 40%,var(--surface-2) 100%);color:var(--text)} [data-theme="dark"] body{background:radial-gradient(circle at top,#5a3d0f 0%,var(--bg) 34%,#140d06 100%)} button,input,textarea,select{font:inherit}
+    .screen{display:none}.screen.active{display:block}
+    .entry-screen{min-height:100vh;display:grid;place-items:center;padding:24px;position:relative;overflow:hidden}.entry-screen::before,.entry-screen::after{content:'';position:absolute;border-radius:50%;filter:blur(14px);opacity:.75;pointer-events:none}.entry-screen::before{width:300px;height:300px;background:rgba(244,197,66,.25);top:7%;left:8%}.entry-screen::after{width:240px;height:240px;background:rgba(93,138,47,.18);right:10%;bottom:8%}
+    .gateway{max-width:760px;width:100%;padding:48px;border-radius:2rem;background:var(--surface);backdrop-filter:blur(12px);border:1px solid var(--border);box-shadow:var(--glow);text-align:center;position:relative}
+    .sun-burst{width:116px;height:116px;margin:0 auto 24px;border-radius:50%;background:radial-gradient(circle,var(--sun) 0 48%, #8c5a00 49% 58%, transparent 59%), conic-gradient(from 0deg,#f8d95a 0 10%, transparent 10% 20%, #f3bf30 20% 30%, transparent 30% 40%, #f8d95a 40% 50%, transparent 50% 60%, #f3bf30 60% 70%, transparent 70% 80%, #f8d95a 80% 90%, transparent 90% 100%);box-shadow:var(--glow);animation:pulse 4s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    .gateway h1{font-family:var(--display);font-size:clamp(2.5rem,6vw,5rem);margin:0 0 12px}.gateway p{max-width:34ch;margin:0 auto;color:var(--muted)}.enter-btn{margin-top:28px;padding:1rem 1.5rem;border:none;border-radius:999px;background:linear-gradient(135deg,var(--primary),#e6b327);color:#fff;font-weight:700;cursor:pointer;box-shadow:var(--glow)}
+    .wrap{max-width:1200px;margin:0 auto;padding:24px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}.logo{display:flex;align-items:center;gap:12px;font-weight:700}.sun-logo{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,var(--sun) 0 45%, #8c5a00 46% 58%, transparent 59%), conic-gradient(from 0deg,#f8d95a 0 10%, transparent 10% 20%, #f3bf30 20% 30%, transparent 30% 40%, #f8d95a 40% 50%, transparent 50% 60%, #f3bf30 60% 70%, transparent 70% 80%, #f8d95a 80% 90%, transparent 90% 100%);box-shadow:var(--glow)}
+    .theme-btn,.tab,.btn,.check-pill,.mood-pill,.flower-node{cursor:pointer}
+    .theme-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:.7rem .95rem}
+    .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}.tab{padding:.8rem 1rem;border:none;border-radius:999px;font-weight:700;color:#fff;box-shadow:var(--glow);opacity:.82}.tab.active{transform:translateY(-2px);opacity:1}.tab-gold{background:linear-gradient(135deg,#d38c00,#f1bf2a)}.tab-orange{background:linear-gradient(135deg,#d2651e,#ff9a3d)}.tab-green{background:linear-gradient(135deg,#648b30,#9dcc58)}.tab-rose{background:linear-gradient(135deg,#b14b54,#e67f7d)}.tab-brown{background:linear-gradient(135deg,#8e5a28,#c2874d)}.tab-blue{background:linear-gradient(135deg,#4873c8,#82a8ff)}
+    .section-view{display:none}.section-view.active{display:block}
+    .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:24px}.panel{background:var(--surface);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--shadow)}.card{padding:32px}.hero-copy,.sun-stage{padding:32px}h2,h3{margin:0;line-height:1.1}h2{font-size:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);margin-bottom:16px}.muted{color:var(--muted)}
+    .chips,.check-row,.mood-row,.actions,.knowledge-actions{display:flex;flex-wrap:wrap;gap:8px}.chip{padding:.5rem .8rem;border-radius:999px;background:var(--accent);color:var(--primary);font-size:.95rem;font-weight:700}
+    .quote,.music-card,.breathing-card,.ecosystem-banner{padding:20px;border-radius:var(--r2);background:linear-gradient(135deg,var(--accent),rgba(255,255,255,.25));margin-top:16px;box-shadow:var(--glow)}
+    .sun-stage{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(180deg,var(--surface),var(--accent))}.flower-emoji{font-size:5rem;line-height:1;filter:drop-shadow(0 8px 14px rgba(0,0,0,.1))}.progress-ring{width:100%;height:12px;background:rgba(182,122,0,.14);border-radius:999px;overflow:hidden;margin:16px 0}.progress-ring span{display:block;height:100%;background:linear-gradient(90deg,var(--success),var(--primary));width:0%;box-shadow:0 0 14px rgba(255,200,0,.45)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.three-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.knowledge-grid,.variety-grid,.ideas-grid,.ecosystem-grid,.flower-grid{display:grid;gap:12px;margin-top:16px}.knowledge-grid,.ecosystem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.variety-grid,.ideas-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.flower-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .variety,.idea,.ecosystem-card,.knowledge-card,.flower-node{padding:16px;border-radius:var(--r2);background:var(--surface-2);border:1px solid var(--border);box-shadow:0 0 18px rgba(244,197,66,.10)}.flower-node{transition:transform .2s ease, box-shadow .2s ease}.flower-node:hover{transform:translateY(-2px);box-shadow:var(--glow)}.flower-node strong{display:block;margin-top:6px}.idea .icon,.variety .icon{font-size:2rem;margin-bottom:6px}
+    label{display:block;font-size:.95rem;font-weight:700;margin-bottom:8px}input,select,textarea{width:100%;padding:.9rem 1rem;border-radius:var(--r1);border:1px solid var(--border);background:rgba(255,255,255,.58);color:var(--text)}[data-theme="dark"] input,[data-theme="dark"] select,[data-theme="dark"] textarea{background:rgba(0,0,0,.12)}textarea{min-height:140px;resize:vertical}
+    .btn{padding:.9rem 1.2rem;border-radius:999px;border:none;font-weight:700}.btn-primary{background:linear-gradient(135deg,var(--primary),#e6b327);color:#fff;box-shadow:var(--glow)}.btn-secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}.stat{padding:16px;border-radius:var(--r2);background:var(--surface-2);border:1px solid var(--border);box-shadow:0 0 18px rgba(244,197,66,.10)}.stat strong{display:block;font-size:1.4rem}
+    .entries{display:grid;gap:12px;margin-top:16px}.entry{padding:16px;border-radius:var(--r2);background:var(--surface-2);border:1px solid var(--border)}.entry-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+    .week-review{margin-top:16px;padding:20px;border-radius:var(--r2);background:var(--success-soft);border:1px solid color-mix(in srgb, var(--success) 35%, var(--border));box-shadow:0 0 18px rgba(151,195,93,.16)}
+    .breath-orb{width:180px;height:180px;margin:16px auto;border-radius:50%;background:radial-gradient(circle at 35% 35%, #fff7d5 0%, #ffd765 40%, #f1b22d 65%, #c57c00 100%);box-shadow:var(--glow);display:grid;place-items:center;font-family:var(--display);font-size:1.3rem;animation:breathe 8s ease-in-out infinite;transition:background .7s ease, box-shadow .7s ease, transform .7s ease}.breath-orb.inhale{background:radial-gradient(circle at 35% 35%, #fff9e6 0%, #ffd975 40%, #ffc000 65%, #f08c00 100%);transform:scale(1.08)}.breath-orb.exhale{background:radial-gradient(circle at 35% 35%, #fffaf3 0%, #fff0c8 40%, #f3e0a0 65%, #e7d3a2 100%);transform:scale(.92)}
+    .mood-pill,.check-pill{padding:.6rem .85rem;border-radius:999px;border:1px solid var(--border);background:var(--surface)}.check-pill.done,.mood-pill.active{background:var(--accent);color:var(--primary);font-weight:700}.small{font-size:.92rem}.tiny{font-size:.85rem}
+    .music-frame{width:100%;aspect-ratio:16/9;border:none;border-radius:var(--r2);margin-top:16px;box-shadow:var(--glow)}
+    .weather{position:relative;overflow:hidden}.weather::after{content:'';position:absolute;inset:-20%;background:radial-gradient(circle at 20% 20%, rgba(255,255,255,.35), transparent 18%), radial-gradient(circle at 80% 30%, rgba(255,255,255,.22), transparent 14%), radial-gradient(circle at 40% 80%, rgba(255,255,255,.18), transparent 16%);pointer-events:none;opacity:.6}
+    @media (max-width:900px){.hero,.grid,.knowledge-grid,.ecosystem-grid,.stats,.form-grid,.variety-grid,.ideas-grid,.three-grid{grid-template-columns:1fr}.wrap{padding:16px}.card,.hero-copy,.sun-stage,.gateway{padding:24px}}
+  </style>
+</head>
+<body>
+  <section id="entryScreen" class="screen entry-screen active">
+    <div class="gateway">
+      <div class="sun-burst" aria-hidden="true"></div>
+      <h1>Just Breathe</h1>
+      <p>Enter the sunflower sanctuary. Your breath, your mood, and your growth shape this living world.</p>
+      <button class="enter-btn" id="enterApp">Enter sanctuary</button>
+    </div>
+  </section>
+
+  <main id="appScreen" class="screen">
+    <div class="wrap">
+      <header class="topbar">
+        <div class="logo"><div class="sun-logo" aria-hidden="true"></div><div><div>Sunflower Living Ecosystem</div><div class="muted" style="font-size:.92rem">A meditation world that grows with you</div></div></div>
+        <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">☀️ / 🌙</button>
+      </header>
+
+      <nav class="tabs" aria-label="Sections">
+        <button class="tab tab-gold active" data-tab="home">Home</button>
+        <button class="tab tab-orange" data-tab="ecosystem">Ecosystem</button>
+        <button class="tab tab-green" data-tab="varieties">Flowers</button>
+        <button class="tab tab-rose" data-tab="log">Daily Log</button>
+        <button class="tab tab-brown" data-tab="journal">Weekly Journal</button>
+        <button class="tab tab-blue" data-tab="meditation-room">Meditation Room</button>
+      </nav>
+
+      <section id="home" class="section-view active">
+        <section class="hero">
+          <div class="panel hero-copy card">
+            <h2>My garden grows when I grow.</h2>
+            <p class="muted">Every meditation, mood, and reflection changes the world around you. The sanctuary responds with glow, weather, flower types, and memory blooms.</p>
+            <div class="chips" style="margin-top:16px">
+              <span class="chip">5 min sprout</span>
+              <span class="chip">10 min young sunflower</span>
+              <span class="chip">20 min bloom</span>
+              <span class="chip">60 min giant gold</span>
+            </div>
+            <div class="quote"><div style="font-size:.92rem;font-weight:700;color:var(--primary)">Quote of the day</div><div id="dailyQuote">Like a sunflower, turn gently toward the light.</div></div>
+            <div class="ecosystem-banner"><strong>Ecosystem status</strong><div class="muted small" id="ecosystemStatus">Your garden is calm, bright, and ready to grow.</div></div>
+          </div>
+          <div class="panel sun-stage card weather">
+            <div class="flower-emoji" id="plantStage">🌻</div>
+            <h2 id="plantTitle">Sunny Smile</h2>
+            <p class="muted" id="plantText">Your first sessions open a bright, cheerful sunflower.</p>
+            <div class="progress-ring" aria-hidden="true"><span id="progressFill"></span></div>
+            <div class="muted" id="progressText">0 of 20 growth points in your sunflower garden</div>
+            <div class="quote tiny" style="margin-top:14px"><strong>Weather:</strong> <span id="weatherText">soft sunlight</span></div>
+          </div>
+        </section>
+
+        <section class="grid">
+          <div class="panel card breathing-card">
+            <h2>Breathing gate</h2>
+            <p class="muted">Follow the orb. Inhale as it expands, exhale as it softens. Longer breathing strengthens the ecosystem energy.</p>
+            <div class="breath-orb" id="breathText">Breathe</div>
+            <div class="check-row">
+              <button class="check-pill" data-check="Mood check">Mood check</button>
+              <button class="check-pill" data-check="Water break">Water break</button>
+              <button class="check-pill" data-check="Stretch">Stretch</button>
+            </div>
+            <div class="mood-row" id="moodRow">
+              <button class="mood-pill active" data-mood="Peaceful">Peaceful</button>
+              <button class="mood-pill" data-mood="Sad">Sad</button>
+              <button class="mood-pill" data-mood="Motivated">Motivated</button>
+              <button class="mood-pill" data-mood="Grateful">Grateful</button>
+              <button class="mood-pill" data-mood="Tired">Tired</button>
+              <button class="mood-pill" data-mood="Hopeful">Hopeful</button>
+            </div>
+          </div>
+          <div class="panel card">
+            <h2>Knowledge garden</h2>
+            <p class="muted">Every book becomes a planted flower. Add books, YouTube links, music, and quotes to grow glowing knowledge blooms.</p>
+            <div class="knowledge-actions actions"><button class="btn btn-secondary" id="addBook" type="button">Add book</button><button class="btn btn-secondary" id="addQuote" type="button">Add quote</button><button class="btn btn-secondary" id="addLink" type="button">Add YouTube link</button></div>
+            <div class="knowledge-grid" id="knowledgeGrid"></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="ecosystem" class="section-view">
+        <section class="panel card">
+          <h2>Living ecosystem</h2>
+          <p class="muted">Time of day, weather, and your streak change the atmosphere automatically.</p>
+          <div class="ecosystem-grid">
+            <div class="ecosystem-card"><strong>Growth system</strong><div class="muted small">Minutes become sprouts, blooms, and giant golden sunflowers.</div></div>
+            <div class="ecosystem-card"><strong>Dynamic environment</strong><div class="muted small">Morning, afternoon, evening, and night each shift the mood.</div></div>
+            <div class="ecosystem-card"><strong>Streak energy</strong><div class="muted small">Consistency brightens the field and unlocks rare flowers.</div></div>
+            <div class="ecosystem-card"><strong>Rare unlocks</strong><div class="muted small">Moonflowers, crystal garden, golden pollen storms, butterflies.</div></div>
+          </div>
+          <div class="flower-grid" id="flowerGrid"></div>
+        </section>
+      </section>
+
+      <section id="varieties" class="section-view">
+        <section class="panel card">
+          <h2>Living flower types</h2>
+          <p class="muted">Different emotions generate different flowers and moods in the field.</p>
+          <div class="variety-grid">
+            <div class="variety"><div class="icon">🌻</div><strong>Golden Sunflower</strong><div class="muted">Peaceful energy and warm calm.</div></div>
+            <div class="variety"><div class="icon">🌼</div><strong>Drooping Daisy</strong><div class="muted">A softer, quieter mood.</div></div>
+            <div class="variety"><div class="icon">🌻</div><strong>Giant Mammoth</strong><div class="muted">Motivation and strong focus.</div></div>
+            <div class="variety"><div class="icon">🌻</div><strong>Ring of Fire</strong><div class="muted">Gratitude in rich golden-red glow.</div></div>
+            <div class="variety"><div class="icon">🌙</div><strong>Moonflower</strong><div class="muted">Tired, gentle night mode.</div></div>
+            <div class="variety"><div class="icon">🌻</div><strong>Teddy Bear Sunflower</strong><div class="muted">Hopeful, soft, comforting bloom.</div></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="log" class="section-view">
+        <section class="panel card">
+          <h2>Daily entry</h2>
+          <form id="entryForm">
+            <div class="form-grid">
+              <div><label for="entryDate">Date</label><input type="date" id="entryDate" required></div>
+              <div><label for="entryTime">Meditation length</label><select id="entryTime" required><option value="5">5 minutes</option><option value="10">10 minutes</option><option value="20">20 minutes</option><option value="60">1 hour</option></select></div>
+            </div>
+            <div style="margin-top:16px"><label for="entryMood">How do you feel?</label><input id="entryMood" type="text" placeholder="Peaceful, sad, motivated, grateful, tired, hopeful..." required></div>
+            <div style="margin-top:16px"><label for="entryNote">Diary note</label><textarea id="entryNote" placeholder="Write about your meditation, your day, or what you are releasing."></textarea></div>
+            <div style="margin-top:16px"><label for="gratitudeLine">One gratitude line</label><input id="gratitudeLine" type="text" placeholder="Today I am thankful for..."></div>
+            <div class="actions" style="margin-top:16px"><button class="btn btn-primary" type="submit">Save entry</button><button class="btn btn-secondary" type="button" id="fillToday">Use today</button></div>
+          </form>
+        </section>
+      </section>
+
+      <section id="journal" class="section-view">
+        <section class="panel card">
+          <h2>Weekly journal</h2>
+          <p class="muted">Reflect on what grounded you this week and what you want to grow next.</p>
+          <div class="week-review">
+            <label for="weeklyReflection">End-of-week reflection</label>
+            <textarea id="weeklyReflection" placeholder="What did I learn this week? What made me feel centered? What do I want to carry into next week?"></textarea>
+            <div class="actions" style="margin-top:16px"><button class="btn btn-primary" type="button" id="saveReflection">Save weekly reflection</button></div>
+          </div>
+          <div class="stats">
+            <div class="stat"><span class="muted">Sessions</span><strong id="statSessions">0</strong></div>
+            <div class="stat"><span class="muted">Minutes</span><strong id="statMinutes">0</strong></div>
+            <div class="stat"><span class="muted">This week</span><strong id="statWeek">0</strong></div>
+            <div class="stat"><span class="muted">Reflections</span><strong id="statReflections">0</strong></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="meditation-room" class="section-view">
+        <section class="panel card">
+          <h2>Meditation room</h2>
+          <p class="muted">Peaceful music, timers, and glowing ambience. Use the buttons to switch between rain, piano, and ocean sounds.</p>
+          <div class="music-card">
+            <div style="font-weight:700;color:var(--primary)">Soft music</div>
+            <div class="muted tiny">YouTube embeds can use parameters for autoplay, controls, and privacy-enhanced playback [web:29][web:30][web:39].</div>
+            <div class="actions" style="margin-top:12px"><button class="btn btn-secondary music-btn" data-src="https://www.youtube-nocookie.com/embed/1ZYbU82GVz4?autoplay=0&controls=1&rel=0">Rain sounds</button><button class="btn btn-secondary music-btn" data-src="https://www.youtube-nocookie.com/embed/lFcSrYw-ARY?autoplay=0&controls=1&rel=0">Soft piano</button><button class="btn btn-secondary music-btn" data-src="https://www.youtube-nocookie.com/embed/V-_O7nl0Ii0?autoplay=0&controls=1&rel=0">Ocean sounds</button></div>
+            <iframe id="musicFrame" class="music-frame" src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=0&controls=1&rel=0" title="Soft meditation music" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <div class="panel card" style="margin-top:20px">
+            <h3 style="margin-bottom:12px">Meditation timer</h3>
+            <div class="actions"><button class="btn btn-secondary timer-btn" data-minutes="5">5 min</button><button class="btn btn-secondary timer-btn" data-minutes="10">10 min</button><button class="btn btn-secondary timer-btn" data-minutes="20">20 min</button><button class="btn btn-secondary timer-btn" data-minutes="60">60 min</button></div>
+            <div class="quote" style="margin-top:16px"><div style="font-size:.92rem;font-weight:700;color:var(--primary)">Timer</div><div id="timerDisplay" style="font-size:2rem;font-family:var(--display)">00:00</div><div class="actions" style="margin-top:12px"><button class="btn btn-primary" type="button" id="startTimer">Start</button><button class="btn btn-secondary" type="button" id="resetTimer">Reset</button></div></div>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const quotes=['Like a sunflower, turn gently toward the light.','Growth can be quiet and still be beautiful.','Let your peace open one petal at a time.','The sun still rises for slow healing.','Breathe in warmth, breathe out worry.','Your calm is something you can keep growing.'];
+    const gratitudePrompts=['I am thankful for this quiet moment.','I am thankful for breath, rest, and a new beginning.','I am thankful for the peace I am creating.','I am thankful for one good thing in today.','I am thankful for growth, even when it is slow.'];
+    const weatherStates=['soft sunlight','birds and golden sky','bright afternoon glow','orange sunset','moonlight mode','gentle rain'];
+    const books=['The Alchemist','The Four Agreements','Atomic Habits','The Power of Now','Think and Grow Rich','Man’s Search for Meaning'];
+    const state={entries:[],reflections:[],knowledge:[...books],mood:'Peaceful',breathCount:0,timer:null,timerSeconds:0};
+    const stages=[{min:0,emoji:'🌻',title:'Small sprout',text:'Your first sessions open a bright, cheerful sunflower.'},{min:2,emoji:'🌻',title:'Young sunflower',text:'Your garden is gaining height and gentle glow.'},{min:5,emoji:'🌻',title:'Blooming sunflower',text:'Your calm is becoming a full golden bloom.'},{min:10,emoji:'🌻',title:'Giant golden sunflower',text:'Your consistency has grown into a radiant field.'}];
+    const rarity=[{min:8,text:'Rare unlock: moonflowers are starting to bloom.'},{min:12,text:'Rare unlock: crystal pollen drifts through the field.'},{min:16,text:'Rare unlock: butterflies visit the sanctuary.'}];
+
+    function qs(s){return document.querySelector(s)}
+    function qsa(s){return [...document.querySelectorAll(s)]}
+    function setToday(){qs('#entryDate').value=new Date().toISOString().split('T')[0]}
+    function setQuote(){qs('#dailyQuote').textContent=quotes[new Date().getDate()%quotes.length]}
+    function growthPoints(){return state.entries.reduce((sum,item)=>sum+({5:1,10:2,20:3,60:5}[item.minutes]||0),0)}
+    function weekCount(){const now=new Date();const start=new Date(now);start.setDate(now.getDate()-now.getDay());start.setHours(0,0,0,0);return state.entries.filter(e=>new Date(e.date)>=start).length}
+    function updateEnvironment(){const h=new Date().getHours();let text='';if(h<11) text='soft sunlight'; else if(h<16) text='bright afternoon glow'; else if(h<20) text='orange sunset'; else text='moonlight mode'; qs('#weatherText').textContent=text; state.currentWeather=text; qs('#ecosystemStatus').textContent=`Mood set to ${state.mood}. The garden is responding with ${text}.`}
+    function updateGarden(){const pts=growthPoints();const stage=[...stages].reverse().find(s=>pts>=s.min)||stages[0];qs('#plantStage').textContent=stage.emoji;qs('#plantTitle').textContent=stage.title;qs('#plantText').textContent=stage.text;qs('#progressFill').style.width=Math.min((pts/20)*100,100)+'%';qs('#progressText').textContent=`${pts} of 20 growth points in your sunflower garden`;let status=state.breathCount>=6?'The sanctuary glows brighter from your breathing.':state.breathCount>=3?'Breathing is awakening the field energy.':'Your garden is calm, bright, and ready to grow.';qss('#ecosystemStatus',status)}
+    function qss(sel,val){if(val!==undefined){const el=qs('#ecosystemStatus'); if(el) el.textContent=val; return} return qsa(sel)}
+    function updateStats(){qs('#statSessions').textContent=state.entries.length;qs('#statMinutes').textContent=state.entries.reduce((sum,item)=>sum+item.minutes,0);qs('#statWeek').textContent=weekCount();qs('#statReflections').textContent=state.reflections.length}
+    function renderEntries(){const list=qs('#entriesList');if(!state.entries.length){list.innerHTML='<div class="entry"><strong>No entries yet.</strong><div class="muted">Add your first meditation to begin growing your sunflower diary.</div></div>';return}list.innerHTML=[...state.entries].reverse().map(item=>`<article class="entry"><div class="entry-top"><strong>${item.date}</strong><span class="chip">${item.minutes===60?'1 hour':item.minutes+' min'}</span></div><div><strong>Mood:</strong> ${item.mood}</div><div><strong>Gratitude:</strong> ${item.gratitude||'—'}</div><div class="muted" style="margin-top:.35rem">${item.note||'No note added.'}</div></article>`).join('')}
+    function updateTimerDisplay(){const m=String(Math.floor(state.timerSeconds/60)).padStart(2,'0');const s=String(state.timerSeconds%60).padStart(2,'0');qs('#timerDisplay').textContent=`${m}:${s}`}
+    function renderKnowledge(){const grid=qs('#knowledgeGrid');grid.innerHTML=state.knowledge.map((k,i)=>`<div class="knowledge-card"><div style="font-size:1.6rem">🌻</div><strong>${k}</strong><div class="muted small">Knowledge flower ${i+1}</div></div>`).join('')}
+    function renderFlowers(){const grid=qs('#flowerGrid');const mood=state.mood;const flowerMap={Peaceful:['Golden Sunflower','Warm sunlight','calm'],Sad:['Drooping Daisy','Gentle comfort','soft quiet'],Motivated:['Giant Mammoth','Strong growth','bold energy'],Grateful:['Ring of Fire','Rich gratitude','glowing warmth'],Tired:['Moonflower','Night rest','moonlight'],Hopeful:['Teddy Bear Sunflower','Soft hope','kind glow']};const f=flowerMap[mood]||flowerMap.Peaceful;grid.innerHTML=`<button class="flower-node" type="button" id="memoryFlower"><span>🌻</span><strong>${f[0]}</strong><div class="muted small">${f[1]}</div></button><div class="flower-node"><span>📖</span><strong>Memory Timeline</strong><div class="muted small">Mood, meditation, gratitude, and growth history.</div></div><div class="flower-node"><span>🌧️</span><strong>Weather Flower</strong><div class="muted small">Currently: ${state.currentWeather||'soft sunlight'}.</div></div><div class="flower-node"><span>✨</span><strong>Rare Bloom</strong><div class="muted small">Unlock by staying consistent.</div></div>`;qs('#memoryFlower')?.addEventListener('click',()=>alert(`Flower memory:\nMood: ${state.mood}\nMinutes logged: ${state.entries.at(-1)?.minutes||0}\nGratitude: ${state.entries.at(-1)?.gratitude||'—'}`))}
+    function tickBreath(){const orb=qs('#breathText');state.breathCount++;if(state.breathCount%2===1){orb.textContent='Inhale';orb.classList.add('inhale');orb.classList.remove('exhale')}else{orb.textContent='Exhale';orb.classList.add('exhale');orb.classList.remove('inhale')}updateGarden()}
+    function updateWeather(){updateEnvironment();renderFlowers()}
+
+    qs('#entryForm').addEventListener('submit',e=>{e.preventDefault();const entry={date:qs('#entryDate').value,minutes:Number(qs('#entryTime').value),mood:qs('#entryMood').value.trim(),note:qs('#entryNote').value.trim(),gratitude:qs('#gratitudeLine').value.trim()};state.entries.push(entry);e.target.reset();setToday();updateGarden();updateStats();renderEntries();renderFlowers()});
+    qs('#saveReflection').addEventListener('click',()=>{const text=qs('#weeklyReflection').value.trim();if(!text)return;state.reflections.push({date:new Date().toISOString().split('T')[0],text});qs('#weeklyReflection').value='';updateStats();alert('Weekly reflection saved.')});
+    qs('#fillToday').addEventListener('click',setToday); qs('#themeToggle').addEventListener('click',()=>{document.documentElement.setAttribute('data-theme',document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')});
+    qs('#enterApp').addEventListener('click',()=>{qs('#entryScreen').classList.remove('active');qs('#appScreen').classList.add('active')});
+    qsa('.tab').forEach(btn=>btn.addEventListener('click',()=>{qsa('.tab').forEach(t=>t.classList.remove('active'));qsa('.section-view').forEach(v=>v.classList.remove('active'));btn.classList.add('active');qs('#'+btn.dataset.tab).classList.add('active')}));
+    qsa('.check-pill').forEach(btn=>btn.addEventListener('click',()=>btn.classList.toggle('done')));
+    qsa('.mood-pill').forEach(btn=>btn.addEventListener('click',()=>{qsa('.mood-pill').forEach(p=>p.classList.remove('active'));btn.classList.add('active');state.mood=btn.dataset.mood;updateEnvironment();renderFlowers()}));
+    qs('#newGratitude')?.addEventListener('click',()=>{qs('#gratitudeText').textContent=gratitudePrompts[Math.floor(Math.random()*gratitudePrompts.length)]});
+    qsa('.music-btn').forEach(btn=>btn.addEventListener('click',()=>{qs('#musicFrame').src=btn.dataset.src}));
+    qs('#addBook')?.addEventListener('click',()=>{const b=prompt('Add a book title'); if(b){state.knowledge.unshift(b); renderKnowledge()}});
+    qs('#addQuote')?.addEventListener('click',()=>{const q=prompt('Add your favorite quote'); if(q){state.knowledge.unshift(q); renderKnowledge()}});
+    qs('#addLink')?.addEventListener('click',()=>{const l=prompt('Paste a YouTube link'); if(l){state.knowledge.unshift(l); renderKnowledge()}});
+    qsa('.timer-btn').forEach(btn=>btn.addEventListener('click',()=>{state.timerSeconds=Number(btn.dataset.minutes)*60;updateTimerDisplay()}));
+    qs('#startTimer').addEventListener('click',()=>{if(state.timer)return;state.timer=setInterval(()=>{if(state.timerSeconds>0){state.timerSeconds--;updateTimerDisplay()}else{clearInterval(state.timer);state.timer=null;alert('Meditation timer complete.')}},1000)});
+    qs('#resetTimer').addEventListener('click',()=>{clearInterval(state.timer);state.timer=null;state.timerSeconds=0;updateTimerDisplay()});
+
+    setInterval(()=>{const orb=qs('#breathText'); if(orb){tickBreath();}},4000);
+    setInterval(updateWeather, 15000);
+
+    setToday(); setQuote(); state.timerSeconds=0; updateEnvironment(); updateGarden(); updateStats(); renderEntries(); renderKnowledge(); renderFlowers(); updateTimerDisplay(); qs('#breathText').textContent='Breathe'; qs('#breathText').classList.add('inhale');
+  </script>
+</body>
+</html>
